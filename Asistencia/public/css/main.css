@@ -1,0 +1,63 @@
+body {
+	font-family:'Roboto', sans-serif;
+}
+
+.clock {
+	padding:30px;
+	color:#333
+}
+
+#Date {
+	font-size:36px;
+	text-align:center
+}
+
+ul {
+	padding:0px;
+	list-style:none;
+	text-align:center
+}
+
+ul li {
+	display:inline;
+	font-size:42px;
+	font-weight:700;
+	text-align:center
+}
+
+#point {
+	position:relative;
+	-moz-animation:mymove 1s ease infinite;
+	-webkit-animation:mymove 1s ease infinite;
+	padding-left: 10px;
+	padding-right:10px
+}
+
+/* Simple Animation */
+@-webkit-keyframes mymove {
+	0% {
+		opacity: 1.0
+	}
+
+	50% {
+		opacity: 0
+	}
+
+	100% {
+		opacity: 1.0
+	}	
+}
+
+@-moz-keyframes mymove {
+	0% {
+		opacity: 1.0
+	}
+
+	50% {
+		opacity: 0
+	}
+
+	100% {
+		opacity: 1.0
+	};
+}
