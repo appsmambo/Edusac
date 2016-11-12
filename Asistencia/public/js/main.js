@@ -43,8 +43,43 @@ $(document).ready(function () {
 			signOut();
 		} else if (personal.login == 'facebook') {
 			fbLogOut();
+		} else {
+			botones();
 		}
 		return false;
+	});
+	$('#enviar').click(function() {
+		var email = $('#email').val();
+		var clave = $('#clave').val();
+		if (email.length == 0) return false;
+		if (!isEmail(email)) {
+			$('#bloqueEmail').addClass('has-error');
+			$('#email').focus();
+			return false;
+		}
+		$('#bloqueEmail').removeClass('has-error');
+		$.ajax({
+			url:baseUrl + '/registrarAsistencia',
+			data:'login=email&email=' + email + '&clave=' + clave,
+			error:function () {
+				//console.log('error');
+			},
+			dataType:'text',
+			success:function (data) {
+				$('#modalLogin').modal('hide');
+				if (data === 'error') {
+					$('#modalMensaje').modal('show');
+					return false;
+				} else {
+					var respuesta = JSON.parse(data);
+					botones();
+					$('#imagen').hide();
+					$('#nombre').html(respuesta[0].nombre);
+					$('#hora').html(respuesta[0].hora);
+				}
+			},
+			type:'POST'
+		});
 	});
 });
 
@@ -128,4 +163,9 @@ function fbLogOut() {
 	FB.logout(function(response) {
 		// user is now logged out
 	});
+}
+
+function isEmail(email) {
+	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	return regex.test(email);
 }

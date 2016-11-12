@@ -6,7 +6,17 @@ class HomeController extends BaseController {
 	{
 		$login = Input::get('login');
 		$email = Input::get('email');
-		$personal = Personal::where('email', $email)->get();
+		$clave = md5(trim(Input::get('clave')));
+		
+		if ($login !== 'email') {
+			$personal = Personal::where('email', $email)->get();
+		} else {
+			$personal = Personal::where('email', $email)->where('clave', $clave)->get();
+		}
+		
+		if (!count($personal)) {
+			return 'error';
+		}
 		
 		$id = $personal[0]->id;
 		$fecha = date('Y-m-d');
@@ -19,7 +29,12 @@ class HomeController extends BaseController {
 		$asistencia->login = $login;
 		$asistencia->save();
 		
-		return $hora;
+		$response = $hora;
+		if ($login === 'email') {
+			$response = '[{"nombre":"'.ucfirst($personal[0]->nombres).' '.ucfirst($personal[0]->apellidos).'","hora":"'.$hora.'"}]';
+		}
+		
+		return $response;
 	}
 
 }
