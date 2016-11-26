@@ -17,24 +17,34 @@ class HomeController extends BaseController {
 		if (!count($personal)) {
 			return 'error';
 		}
-		
+			
 		$id = $personal[0]->id;
 		$fecha = date('Y-m-d');
 		$hora = date('H:i:s');
 		
-		$asistencia = new Asistencia;
-		$asistencia->fecha = $fecha;
-		$asistencia->hora = $hora;
-		$asistencia->personal = $id;
-		$asistencia->login = $login;
-		$asistencia->save();
+		// validar si personal ya marco el día de hoy
+		$consultaAsistencia = Asistencia::where('fecha', $fecha)->where('personal', $id);
 		
-		$response = $hora;
-		if ($login === 'email') {
-			$response = '[{"nombre":"'.ucfirst($personal[0]->nombres).' '.ucfirst($personal[0]->apellidos).'","hora":"'.$hora.'"}]';
+		if (!count($consultaAsistencia)) {
+			// marca asistencia
+			$asistencia = new Asistencia;
+			$asistencia->fecha = $fecha;
+			$asistencia->hora = $hora;
+			$asistencia->personal = $id;
+			$asistencia->login = $login;
+			$asistencia->estado = 'E';
+			$asistencia->save();
+
+			$response = '[{"estado":"E","hora":"'.$hora.'"}]';
+			if ($login === 'email') {
+				$response = '[{"estado":"E","nombre":"'.ucfirst($personal[0]->nombres).' '.ucfirst($personal[0]->apellidos).'","hora":"'.$hora.'"}]';
+			}
+		} else {
+			// mostrar hora de asistencia y boton de salida
+			$response = '[{"estado":"S","hora":"'.$hora.'"}]';
 		}
 		
-		return $response;
+		return Response::json($response, 200);
 	}
 
 }

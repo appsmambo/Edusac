@@ -36,34 +36,31 @@
 					</h1>
 					<div id="bloqueSignIn">
 						<h3>
-							Para identificarte, haz clic en uno de los botones:
+							Ingresa tu correo y clave de acceso para identificarte:
 						</h3>
-						<p>
-							<br>
-							<a href="#" id="fbLogin" class="btn btn-md btn-primary">
-								<i class="fa fa-lg fa-facebook"></i>&nbsp;&nbsp; Conectar con Facebook
-							</a>
-							<br>
-						</p>
-						<p>
-							<a href="#" id="fbClave" class="btn btn-md btn-primary" data-toggle="modal" data-target="#modalLogin">
-								<i class="fa fa-lg fa-envelope-o"></i>&nbsp;&nbsp; Correo y clave
-							</a>
-							<br>
-						</p>
+						<div class="row formulario">
+							<div class="col-sm-6">
+								<div id="bloqueEmail" class="form-group">
+									<input autofocus type="email" class="form-control" id="email" name="email" maxlength="100" placeholder="Correo electrónico">
+								</div>
+								<div id="bloqueClave" class="form-group">
+									<input type="password" class="form-control" id="clave" name="clave" maxlength="50" placeholder="Clave">
+								</div>
+								<button type="button" id="enviar" class="btn btn-primary pull-right">Enviar</button>
+							</div>
+						</div>
 						<div class="clearfix"></div>
-						<!--
-						<div class="g-signin2" data-onsuccess="onSignIn"></div>
-						<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true"></div>
-						-->
 					</div>
 					<div id="bloqueSignOut" style="display:none">
 						<p>
-							<img id="imagen" alt="" class="pull-left img-circle" style="margin-right:12px">
+							<i class="fa fa-user-circle fa-3x" aria-hidden="true"></i>
 							<strong>Bienvenido(a):</strong> <span id="nombre"></span>
 							<br>
 							<strong>Hora de ingreso:</strong> <span id="hora"></span>
 						</p>
+						<a id="salida" href="#" class="btn btn-danger btn-md" style="display:none">
+							Marcar salida
+						</a>
 						<a id="salir" href="#" class="btn btn-danger btn-md">
 							Salir
 						</a>
@@ -73,31 +70,6 @@
 			</div>
 		</section>
 		<!-- Modal -->
-		<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Ingresa tu correo y clave</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-sm-10 col-sm-offset-1">
-								<div id="bloqueEmail" class="form-group">
-									<label for="email">Correo:</label>
-									<input type="email" class="form-control" id="email" name="email" maxlength="100">
-								</div>
-								<div id="bloqueClave" class="form-group">
-									<label for="clave">Clave:</label>
-									<input type="password" class="form-control" id="clave" name="clave" maxlength="50">
-								</div>
-								<button type="button" id="enviar" class="btn btn-primary pull-right">Enviar</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalMensaje" id="modalMensaje">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">

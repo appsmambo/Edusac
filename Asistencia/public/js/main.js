@@ -64,7 +64,7 @@ $(document).ready(function () {
 			error:function () {
 				//console.log('error');
 			},
-			dataType:'text',
+			dataType:'json',
 			success:function (data) {
 				$('#modalLogin').modal('hide');
 				if (data === 'error') {
