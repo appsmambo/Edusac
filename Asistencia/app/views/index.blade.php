@@ -17,17 +17,6 @@
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 	</head>
 	<body>
-		<div id="fb-root"></div>
-		<script>(function (d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id))
-		return;
-	js = d.createElement(s);
-	js.id = id;
-	js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.8&appId=1238616539531033";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-		</script>
 		<section class="container">
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
@@ -46,18 +35,30 @@
 								<div id="bloqueClave" class="form-group">
 									<input type="password" class="form-control" id="clave" name="clave" maxlength="50" placeholder="Clave">
 								</div>
-								<button type="button" id="enviar" class="btn btn-primary pull-right">Enviar</button>
+								<button type="button" id="asistencia" class="btn btn-primary pull-right">Entrar</button>
 							</div>
 						</div>
 						<div class="clearfix"></div>
 					</div>
 					<div id="bloqueSignOut" style="display:none">
-						<p>
-							<i class="fa fa-user-circle fa-3x" aria-hidden="true"></i>
+						<p class="datos">
 							<strong>Bienvenido(a):</strong> <span id="nombre"></span>
 							<br>
 							<strong>Hora de ingreso:</strong> <span id="hora"></span>
 						</p>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Fecha</th>
+									<th>Hora de ingreso</th>
+									<th>Hora de salida</th>
+									<th>&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody id="listado">
+							</tbody>
+						</table>
 						<a id="salida" href="#" class="btn btn-danger btn-md" style="display:none">
 							Marcar salida
 						</a>

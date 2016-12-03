@@ -4,26 +4,26 @@ class HomeController extends BaseController {
 
 	public function postAsistencia()
 	{
-		$login = Input::get('login');
 		$email = Input::get('email');
 		$clave = md5(trim(Input::get('clave')));
 		
-		if ($login !== 'email') {
-			$personal = Personal::where('email', $email)->get();
-		} else {
-			$personal = Personal::where('email', $email)->where('clave', $clave)->get();
-		}
+		$personal = Personal::where('email', $email)->where('clave', $clave)->get();
 		
 		if (!count($personal)) {
-			return 'error';
+			$response = '[{"estado":"error"}]';
+			return Response::json($response, 200);
 		}
-			
+		
 		$id = $personal[0]->id;
 		$fecha = date('Y-m-d');
 		$hora = date('H:i:s');
+		$nombre = ucfirst($personal[0]->nombres).' '.ucfirst($personal[0]->apellidos);
+		
+		// mis ultimas 5 asistencias
+		
 		
 		// validar si personal ya marco el día de hoy
-		$consultaAsistencia = Asistencia::where('fecha', $fecha)->where('personal', $id);
+		$consultaAsistencia = Asistencia::where('fecha', '=', $fecha)->where('personal', '=', $id)->where('estado', 'E')->get();
 		
 		if (!count($consultaAsistencia)) {
 			// marca asistencia
@@ -31,17 +31,51 @@ class HomeController extends BaseController {
 			$asistencia->fecha = $fecha;
 			$asistencia->hora = $hora;
 			$asistencia->personal = $id;
-			$asistencia->login = $login;
+			$asistencia->login = '-';
 			$asistencia->estado = 'E';
 			$asistencia->save();
 
-			$response = '[{"estado":"E","hora":"'.$hora.'"}]';
-			if ($login === 'email') {
-				$response = '[{"estado":"E","nombre":"'.ucfirst($personal[0]->nombres).' '.ucfirst($personal[0]->apellidos).'","hora":"'.$hora.'"}]';
-			}
+			$response = '[{"estado":"E","id":'.$id.',"nombre":"'.$nombre.'","hora":"'.$hora.'"}]';
 		} else {
 			// mostrar hora de asistencia y boton de salida
-			$response = '[{"estado":"S","hora":"'.$hora.'"}]';
+			$hora = $consultaAsistencia[0]->hora;
+			$response = '[{"estado":"S","id":'.$id.',"nombre":"'.$nombre.'","hora":"'.$hora.'"}]';
+		}
+		
+		return Response::json($response, 200);
+	}
+	
+	public function postSalida()
+	{
+		$id = Input::get('id');
+		
+		$personal = Personal::find($id);
+		
+		if (!count($personal)) {
+			$response = '[{"estado":"error"}]';
+			return Response::json($response, 200);
+		}
+		
+		$fecha = date('Y-m-d');
+		$hora = date('H:i:s');
+		
+		// validar si personal ya marco su salida
+		$consultaAsistencia = Asistencia::where('fecha', '=', $fecha)->where('personal', '=', $id)->where('estado', 'S')->get();
+		
+		if (!count($consultaAsistencia)) {
+			// marca asistencia
+			$asistencia = new Asistencia;
+			$asistencia->fecha = $fecha;
+			$asistencia->hora = $hora;
+			$asistencia->personal = $id;
+			$asistencia->login = '-';
+			$asistencia->estado = 'S';
+			$asistencia->save();
+
+			$response = '[{"estado":"ok"}]';
+		} else {
+			// ya habia registrado hora de salida
+			$response = '[{"estado":"0"}]';
 		}
 		
 		return Response::json($response, 200);

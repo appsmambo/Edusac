@@ -17,3 +17,16 @@ body {
 .formulario {
 	margin-top:28px
 }
+
+p.datos {
+	margin:20px 0
+}
+p.datos strong {
+	font-size:18px
+}
+#nombre {
+	font-size:18px
+}
+#hora {
+	font-size:32px
+}

@@ -6,3 +6,5 @@ Route::get('/', function()
 });
 
 Route::post('/registrarAsistencia', array('uses' => 'HomeController@postAsistencia'));
+Route::post('/registrarSalida', array('uses' => 'HomeController@postSalida'));
+
