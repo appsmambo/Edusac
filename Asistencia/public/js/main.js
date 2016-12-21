@@ -2,6 +2,7 @@ var personal = {};
 personal.id = null;
 personal.nombre = '';
 personal.hora = '';
+personal.reporte = '';
 
 $(document).ready(function () {
 	$('#salir').click(function () {
@@ -36,8 +37,17 @@ $(document).ready(function () {
 					personal.id = respuesta.id;
 					personal.nombre = respuesta.nombre;
 					personal.hora = respuesta.hora;
+					personal.reporte = respuesta.reporte;
 					$('#nombre').html(personal.nombre);
 					$('#hora').html(personal.hora);
+					console.log(personal.reporte);
+					if (personal.reporte == 2) {
+						$('#botonReporte').show();
+					} else {
+						$('#botonReporte').hide();
+					}
+					// cargar 5 ultimas fechas de asistencia
+					cargarAsistencias();
 				}
 			},
 			type:'POST'
@@ -91,4 +101,34 @@ function limpiarDatos() {
 function isEmail(email) {
 	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 	return regex.test(email);
+}
+
+function cargarAsistencias() {
+	$.ajax({
+		url:baseUrl + '/ultimasAsistencias',
+		data:'id=' + personal.id,
+		error:function () {
+			//console.log('error');
+		},
+		dataType:'json',
+		success:function (data) {
+			var contador = 1;
+			var html = '';
+			$('#listado').html('');
+			$.each(data, function(i, item) {
+				html += '<tr>';
+				html += '<td>' + contador + '</td>';
+				html += '<td>' + item.dia + '</td>';
+				html += '<td>' + item.entrada + '</td>';
+				if (item.entrada !== item.salida)
+					html += '<td>' + item.salida + '</td>';
+				else
+					html += '<td class="warning">00:00:00</td>';
+				html += '</tr>';
+				contador++;
+			});
+			$('#listado').html(html);
+		},
+		type:'POST'
+	});
 }

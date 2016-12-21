@@ -9,7 +9,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
 		<link href="{{url('css/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
-		<link href="{{url('css/main.css')}}" rel="stylesheet">
+		<link href="{{url('css/main.css?v=123')}}" rel="stylesheet">
 		<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -41,11 +41,27 @@
 						<div class="clearfix"></div>
 					</div>
 					<div id="bloqueSignOut" style="display:none">
-						<p class="datos">
-							<strong>Bienvenido(a):</strong> <span id="nombre"></span>
-							<br>
-							<strong>Hora de ingreso:</strong> <span id="hora"></span>
-						</p>
+						<div class="row">
+							<div class="col-sm-7">
+								<p class="datos">
+									<strong>Bienvenido(a):</strong> <span id="nombre"></span>
+									<br>
+									<strong>Hora de ingreso:</strong> <span id="hora"></span>
+								</p>
+							</div>
+							<div class="col-sm-5">
+								<div id="botonReporte" class="btn-group">
+									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Reporte <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li><a href="{{url('/reporte-primera-quincena')}}">Primera quincena</a></li>
+										<li><a href="{{url('/reporte-segunda-quincena')}}">Segunda quincena</a></li>
+										<li><a href="{{url('/reporte-mes')}}">Mes completo</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
 						<table class="table table-hover">
 							<thead>
 								<tr>
@@ -89,6 +105,6 @@
 		</script>
 		<script src="{{url('js/jquery.min.js')}}"></script>
 		<script src="{{url('js/bootstrap.min.js')}}"></script>
-		<script src="{{url('js/main.js')}}"></script>
+		<script src="{{url('js/main.js?v=123')}}"></script>
 	</body>
 </html>
