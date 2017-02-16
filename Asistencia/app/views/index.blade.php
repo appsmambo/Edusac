@@ -42,23 +42,27 @@
 					</div>
 					<div id="bloqueSignOut" style="display:none">
 						<div class="row">
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<p class="datos">
 									<strong>Bienvenido(a):</strong> <span id="nombre"></span>
 									<br>
 									<strong>Hora de ingreso:</strong> <span id="hora"></span>
 								</p>
 							</div>
-							<div class="col-sm-5">
-								<div id="botonReporte" class="btn-group">
-									<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										Reporte <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a href="{{url('/reporte-primera-quincena')}}">Primera quincena</a></li>
-										<li><a href="{{url('/reporte-segunda-quincena')}}">Segunda quincena</a></li>
-										<li><a href="{{url('/reporte-mes')}}">Mes completo</a></li>
-									</ul>
+							<div class="col-sm-6">
+								<div id="botonReporte">
+									<div class="btn-group">
+										<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Reporte <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a href="{{url('/reporte-primera-quincena')}}">Primera quincena</a></li>
+											<li><a href="{{url('/reporte-segunda-quincena')}}">Segunda quincena</a></li>
+											<li><a href="{{url('/reporte-mes')}}">Mes completo</a></li>
+										</ul>
+									</div>
+									<button type="button" class="btn btn-warning" id="editarIngreso">Editar ingreso</button>
+									<button type="button" class="btn btn-info" id="nuevoPersonal">Nuevo personal</button>
 								</div>
 							</div>
 						</div>
@@ -96,6 +100,36 @@
 					</div>
 					<div class="modal-body">
 						No encontramos tu email, o tu contraseña, vuelve a intentarlo.
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalEditarIngreso" id="modalEditarIngreso">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Editar la hora de ingreso:</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="personal">Seleccione personal</label>
+							<select class="form-control" id="personal">
+								<option>&nbsp;</option>
+								@foreach($dataPersonal as $personal)
+								<option value="{{$personal['id']}}">{{ucwords($personal['nombres'])}} {{ucwords($personal['apellidos'])}}</option>
+								@endforeach
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="fechaIngreso">Ingrese la fecha</label>
+							<input type="date" class="form-control" id="fechaIngreso" max="{{date('Y-m-d')}}">
+							<input type="text" class="form-control" id="horaIngreso" disabled value="" style="display:none">
+						</div>
+						<div class="form-group">
+							<label for="horaEditada">Nueva hora</label>
+							<input type="time" class="form-control" id="horaEditada">
+						</div>
 					</div>
 				</div>
 			</div>

@@ -166,4 +166,11 @@ class HomeController extends BaseController {
 		})->export('xls');
 	}
 
+	public function getHoraIngreso()
+	{
+		$id = Input::get('id');
+		$fecha = Input::get('fecha');
+		$consultaAsistencia = Asistencia::where('fecha', '=', $fecha)->where('personal', '=', $id)->where('estado', 'E')->get(['hora']);
+		return Response::json($consultaAsistencia->toArray(), 200);
+	}
 }

@@ -1,3 +1,4 @@
+var dataPersonal = {};
 var personal = {};
 personal.id = null;
 personal.nombre = '';
@@ -40,7 +41,7 @@ $(document).ready(function () {
 					personal.reporte = respuesta.reporte;
 					$('#nombre').html(personal.nombre);
 					$('#hora').html(personal.hora);
-					console.log(personal.reporte);
+					//console.log(personal.reporte);
 					if (personal.reporte == 2) {
 						$('#botonReporte').show();
 					} else {
@@ -76,9 +77,26 @@ $(document).ready(function () {
 		});
 		return false;
 	});
+	$('#editarIngreso').click(function() {
+		$('#modalEditarIngreso').modal('show');
+	});
+	$('#fechaIngreso').change(function() {
+		$.ajax({
+			url:baseUrl + '/getHoraIngreso',
+			data:'id=' + $('#personal').val() + '&fecha=' + $('#fechaIngreso').val(),
+			error:function () {
+				//console.log('error');
+			},
+			dataType:'json',
+			success:function (data) {
+				$('#horaIngreso').val(data[0].hora).show('slow');
+			},
+			type:'POST'
+		});
+	});
 });
 
-function botones(estado = '') {
+function botones(estado) {
 	$('#email').val('');
 	$('#clave').val('');
 	$('#bloqueSignIn').toggle();

@@ -2,7 +2,8 @@
 
 Route::get('/', function()
 {
-	return View::make('index');
+	$personal = Personal::orderBy('nombres')->get(['id', 'nombres', 'apellidos']);
+	return View::make('index')->with('dataPersonal', $personal->toArray());
 });
 
 Route::get('/reporte-primera-quincena', array('uses' => 'HomeController@getReportePrimeraQuincena'));
@@ -13,3 +14,5 @@ Route::post('/registrarAsistencia', array('uses' => 'HomeController@postAsistenc
 Route::post('/registrarSalida', array('uses' => 'HomeController@postSalida'));
 Route::post('/ultimasAsistencias', array('uses' => 'HomeController@getUltimasAsistencias'));
 
+//Route::post('/dataPersonal', array('uses' => 'HomeController@postDataPersonal'));
+Route::post('/getHoraIngreso', array('uses' => 'HomeController@getHoraIngreso'));
