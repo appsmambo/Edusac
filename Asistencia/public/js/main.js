@@ -80,19 +80,57 @@ $(document).ready(function () {
 	$('#editarIngreso').click(function() {
 		$('#modalEditarIngreso').modal('show');
 	});
+	$('#personal').change(function() {
+		$('#fechaIngreso').val('');
+		$('#horaIngreso').val('');
+		$('#horaEditada').val('');
+		$('#idAsistencia').val('');
+	});
 	$('#fechaIngreso').change(function() {
+		var personalId, fechaIngreso;
+		personalId = $('#personal').val();
+		fechaIngreso = $('#fechaIngreso').val();
+		$('#horaIngreso').val('');
+		if (personalId === '0' || fechaIngreso === '') return false;
 		$.ajax({
-			url:baseUrl + '/getHoraIngreso',
-			data:'id=' + $('#personal').val() + '&fecha=' + $('#fechaIngreso').val(),
+			url:baseUrl + '/postHoraIngreso',
+			data:'id=' + personalId + '&fecha=' + fechaIngreso,
 			error:function () {
 				//console.log('error');
 			},
 			dataType:'json',
 			success:function (data) {
-				$('#horaIngreso').val(data[0].hora).show('slow');
+				if (data.length === 0) return false;
+				$('#horaIngreso').val(data[0].hora).fadeIn('slow');
+				$('#idAsistencia').val(data[0].id);
 			},
 			type:'POST'
 		});
+	});
+	$('#actualizarHora').click(function() {
+		var idAsistencia, fechaIngreso, horaEditada, confirmar, mensaje;
+		idAsistencia = $('#idAsistencia').val();
+		fechaIngreso = $('#fechaIngreso').val();
+		horaEditada = $('#horaEditada').val();
+		mensaje = 'Personal: ' + $('#personal option:selected').text() + '\nFecha: ' + fechaIngreso + '\nHora: ' + horaEditada;
+		if (idAsistencia === '' || horaEditada === '') return false;
+		confirmar = confirm('Confirme la operación:\n\n' + mensaje);
+		if (confirmar === true) {
+			$.ajax({
+				url:baseUrl + '/postActualizarHora',
+				data:'id=' + idAsistencia + '&hora=' + horaEditada,
+				error:function () {
+					//console.log('error');
+				},
+				dataType:'text',
+				success:function (data) {
+					//hecho
+					$('#personal').val('0').trigger('change');
+					$('#modalEditarIngreso').modal('hide');
+				},
+				type:'POST'
+			});
+		}
 	});
 });
 

@@ -170,7 +170,17 @@ class HomeController extends BaseController {
 	{
 		$id = Input::get('id');
 		$fecha = Input::get('fecha');
-		$consultaAsistencia = Asistencia::where('fecha', '=', $fecha)->where('personal', '=', $id)->where('estado', 'E')->get(['hora']);
+		$consultaAsistencia = Asistencia::where('fecha', '=', $fecha)->where('personal', '=', $id)->where('estado', 'E')->get(['id', 'hora']);
 		return Response::json($consultaAsistencia->toArray(), 200);
+	}
+	
+	public function postActualizarHora()
+	{
+		$id = Input::get('id');
+		$horaEditada = Input::get('hora');
+		$asistencia = Asistencia::find($id);
+		$asistencia->hora = $horaEditada;
+		$asistencia->save();
+		return 1;
 	}
 }

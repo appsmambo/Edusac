@@ -115,21 +115,26 @@
 						<div class="form-group">
 							<label for="personal">Seleccione personal</label>
 							<select class="form-control" id="personal">
-								<option>&nbsp;</option>
+								<option value="0">&nbsp;</option>
 								@foreach($dataPersonal as $personal)
 								<option value="{{$personal['id']}}">{{ucwords($personal['nombres'])}} {{ucwords($personal['apellidos'])}}</option>
 								@endforeach
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="fechaIngreso">Ingrese la fecha</label>
+							<label for="fechaIngreso">Ingrese la fecha de ingreso</label>
 							<input type="date" class="form-control" id="fechaIngreso" max="{{date('Y-m-d')}}">
-							<input type="text" class="form-control" id="horaIngreso" disabled value="" style="display:none">
+							<input type="hidden" id="idAsistencia">
+						</div>
+						<div class="form-group">
+							<label for="horaIngreso">Hora</label>
+							<input type="text" class="form-control" id="horaIngreso" disabled>
 						</div>
 						<div class="form-group">
 							<label for="horaEditada">Nueva hora</label>
-							<input type="time" class="form-control" id="horaEditada">
+							<input type="text" class="form-control" id="horaEditada" placeholder="00:00">
 						</div>
+						<button type="button" class="btn btn-primary" id="actualizarHora">Actualizar</button>
 					</div>
 				</div>
 			</div>
